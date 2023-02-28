@@ -194,19 +194,38 @@ var dessertCategories = function (desserts) {
   }
 */
 var countMessagesPerUser = function(tweets) {
-
+  var getTweetCount = function (accumulator, tweet) {
+    var currentUser = tweet.user;
+    if (accumulator[currentUser] === undefined) {
+      accumulator[currentUser] = 1;
+    } else {
+      accumulator[currentUser] += 1;
+    }
+    return accumulator;
+  };
+  return _.reduce(tweets, getTweetCount, {});
 };
 
 // given an array of movie data objects,return an array containing
 // movies that came out between 1990 and 2000.
 // TIP: use an array as your accumulator - don't push to an external array!
 var ninetiesKid = function (movies) {
-
+  return _.reduce(movies, function(accumulator, movie) {
+    if (movie.releaseYear >= 1990 && movie.releaseYear <= 2000) {
+      accumulator.push(movie.title);
+    }
+    return accumulator;
+  }, []);
 };
 
 // return an boolean stating if there exists a movie with a shorter
 // runtime than your time limit.
 // timeLimit is an integer representing a number of minutes.
 var movieNight = function (movies, timeLimit) {
-
+  return _.reduce(movies, function(accumulator, movie) {
+    if (movie.runtime < timeLimit) {
+      accumulator = true;
+    }
+    return accumulator;
+  }, false);
 };
